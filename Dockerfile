@@ -1,11 +1,11 @@
-FROM dockerpull.org/node:20-alpine AS base
+FROM node:20-alpine AS base
 
 ENV NODE_ENV=docker
 
 # 清理缓存
 RUN rm -rf /var/cache/apk/*
 
-RUN npm install -g pnpm --registry=https://registry.npmmirror.com
+RUN npm install -g pnpm
 WORKDIR /app
 
 COPY . .
@@ -24,11 +24,11 @@ RUN sed -i '/name: "jianshu"/,/show:/ s/\(show:\) true/\1 false/' src/store/inde
 RUN sed -i '/name: "sspai"/,/show:/ s/\(show:\) true/\1 false/' src/store/index.js
 RUN sed -i '/name: "thepaper"/,/show:/ s/\(show:\) true/\1 false/' src/store/index.js
 RUN sed -i '/name: "weread"/,/show:/ s/\(show:\) true/\1 false/' src/store/index.js
-RUN pnpm install --registry=https://registry.npmmirror.com && pnpm build && cp -r dist/* /app/api/public && rm -rf /app/web/node_modules
+RUN pnpm install && pnpm build && cp -r dist/* /app/api/public && rm -rf /app/web/node_modules
 
 WORKDIR /app/api
 RUN sed -i 's|app.route("/", registry);|app.route("/api", registry);|; s|app.get("/", (c) => c.html(<Home />));|app.get("/api", (c) => c.html(<Home />));|' src/app.tsx
-RUN pnpm install --registry=https://registry.npmmirror.com && pnpm build
+RUN pnpm install && pnpm build
 
 RUN ls -li /app/api
 RUN ls -li /app/api/public
