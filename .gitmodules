@@ -1,6 +1,8 @@
 [submodule "api"]
 	path = api
 	url = https://github.com/imsyy/DailyHotApi
+	branch = c9ee406
 [submodule "web"]
 	path = web
 	url = https://github.com/imsyy/DailyHot
+	branch = 8b91ad9
