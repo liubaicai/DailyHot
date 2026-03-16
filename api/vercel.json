@@ -2,13 +2,13 @@
   "version": 2,
   "buildCommand": "pnpm build",
   "functions": {
-    "dist/vercel.js": {
+    "api/index.mjs": {
       "maxDuration": 30,
       "includeFiles": "{dist,public}/**"
     }
   },
   "rewrites": [
-    { "source": "/(.*)", "destination": "/dist/vercel.js" }
+    { "source": "/(.*)", "destination": "/api" }
   ],
   "env": {
     "ALLOWED_DOMAIN": "*",
