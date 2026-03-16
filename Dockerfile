@@ -15,19 +15,9 @@ WORKDIR /app/web
 ENV VITE_GLOBAL_API=/api
 ENV VITE_ICP=
 ENV VITE_DIR=/
-RUN sed -i '/name: "douban-movie"/,/show:/ s/\(show:\) true/\1 false/' src/store/index.js
-RUN sed -i '/name: "genshin"/,/show:/ s/\(show:\) true/\1 false/' src/store/index.js
-RUN sed -i '/name: "starrail"/,/show:/ s/\(show:\) true/\1 false/' src/store/index.js
-RUN sed -i '/name: "lol"/,/show:/ s/\(show:\) true/\1 false/' src/store/index.js
-RUN sed -i '/name: "douban-group"/,/show:/ s/\(show:\) true/\1 false/' src/store/index.js
-RUN sed -i '/name: "jianshu"/,/show:/ s/\(show:\) true/\1 false/' src/store/index.js
-RUN sed -i '/name: "sspai"/,/show:/ s/\(show:\) true/\1 false/' src/store/index.js
-RUN sed -i '/name: "thepaper"/,/show:/ s/\(show:\) true/\1 false/' src/store/index.js
-RUN sed -i '/name: "weread"/,/show:/ s/\(show:\) true/\1 false/' src/store/index.js
 RUN pnpm install && pnpm build && cp -r dist/* /app/api/public && rm -rf /app/web/node_modules
 
 WORKDIR /app/api
-RUN sed -i 's|app.route("/", registry);|app.route("/api", registry);|; s|app.get("/", (c) => c.html(<Home />));|app.get("/api", (c) => c.html(<Home />));|' src/app.tsx
 RUN pnpm install && pnpm build
 
 RUN ls -li /app/api

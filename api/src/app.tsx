@@ -49,12 +49,12 @@ app.use(
 );
 
 // 主路由
-app.route("/", registry);
+app.route("/api", registry);
 
 // robots
 app.get("/robots.txt", robotstxt);
 // 首页
-app.get("/", (c) => c.html(<Home />));
+app.get("/api", (c) => c.html(<Home />));
 // 404
 app.notFound((c) => c.html(<NotFound />, 404));
 // error

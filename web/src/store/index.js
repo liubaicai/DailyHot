@@ -48,7 +48,7 @@ export const mainStore = defineStore("mainData", {
           label: "少数派",
           name: "sspai",
           order: 6,
-          show: true,
+          show: false,
         },
         {
           label: "IT之家",
@@ -60,7 +60,7 @@ export const mainStore = defineStore("mainData", {
           label: "澎湃新闻",
           name: "thepaper",
           order: 8,
-          show: true,
+          show: false,
         },
         {
           label: "今日头条",
@@ -90,25 +90,25 @@ export const mainStore = defineStore("mainData", {
           label: "豆瓣电影",
           name: "douban-movie",
           order: 13,
-          show: true,
+          show: false,
         },
         {
           label: "原神",
           name: "genshin",
           order: 14,
-          show: true,
+          show: false,
         },
         {
           label: "崩坏：星穹铁道",
           name: "starrail",
           order: 16,
-          show: true,
+          show: false,
         },
         {
           label: "LOL",
           name: "lol",
           order: 15,
-          show: true,
+          show: false,
         },
         {
           label: "网易新闻",
@@ -120,13 +120,13 @@ export const mainStore = defineStore("mainData", {
           label: "微信读书",
           name: "weread",
           order: 18,
-          show: true,
+          show: false,
         },
         {
           label: "豆瓣讨论小组",
           name: "douban-group",
           order: 19,
-          show: true,
+          show: false,
         },
         {
           label: "NGA",
@@ -144,7 +144,7 @@ export const mainStore = defineStore("mainData", {
           label: "简书",
           name: "jianshu",
           order: 22,
-          show: true,
+          show: false,
         },
         {
           label: "知乎日报",
