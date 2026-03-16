@@ -166,6 +166,101 @@ const Layout: FC = (props) => {
         color: var(--text-color-gray);
         transition: color 0.3s;
       }
+      /* 文档页面样式 */
+      .docs-page {
+        max-width: 800px;
+        width: 100%;
+        height: auto;
+        align-items: flex-start;
+      }
+      .hero {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .hero-title {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 12px;
+      }
+      .hero-desc {
+        font-size: 18px;
+        opacity: 0.8;
+        margin-bottom: 24px;
+        line-height: 1.6;
+      }
+      .docs {
+        width: 100%;
+        text-align: left;
+        user-select: text;
+      }
+      .doc-section {
+        margin-bottom: 32px;
+      }
+      .doc-section h2 {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--text-color-gray);
+      }
+      .doc-section p {
+        font-size: 15px;
+        line-height: 1.8;
+        margin-bottom: 10px;
+      }
+      .doc-section code {
+        background: rgba(128, 128, 128, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+        font-size: 14px;
+      }
+      .code-block {
+        background: rgba(128, 128, 128, 0.1);
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin: 10px 0;
+        overflow-x: auto;
+      }
+      .code-block code {
+        background: none;
+        padding: 0;
+        font-size: 14px;
+      }
+      .code-block pre {
+        margin: 0;
+        white-space: pre;
+        line-height: 1.6;
+      }
+      .doc-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+        font-size: 14px;
+      }
+      .doc-table th,
+      .doc-table td {
+        border: 1px solid rgba(128, 128, 128, 0.3);
+        padding: 8px 12px;
+        text-align: left;
+      }
+      .doc-table th {
+        background: rgba(128, 128, 128, 0.1);
+        font-weight: 600;
+      }
+      .doc-link {
+        color: #3b82f6;
+        text-decoration: underline;
+        transition: opacity 0.2s;
+      }
+      .doc-link:hover {
+        opacity: 0.7;
+      }
       footer a:hover {
         color: var(--text-color);
       }
