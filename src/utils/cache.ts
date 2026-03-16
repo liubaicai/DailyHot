@@ -28,8 +28,9 @@ const redis = new Redis({
   password: config.REDIS_PASSWORD,
   db: config.REDIS_DB,
   maxRetriesPerRequest: 5,
-  // 重试策略：最小延迟 50ms，最大延迟 2s
-  retryStrategy: (times) => Math.min(times * 50, 2000),
+  connectTimeout: 5000,
+  // 重试策略：最多重试 3 次，之后放弃连接
+  retryStrategy: (times) => (times > 3 ? null : Math.min(times * 50, 2000)),
   // 仅在第一次建立连接
   lazyConnect: true,
 });
