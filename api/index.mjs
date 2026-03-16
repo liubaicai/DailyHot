@@ -1,5 +1,4 @@
+import { handle } from "hono/vercel";
 import app from "../dist/app.js";
 
-export default function handler(request) {
-  return app.fetch(request);
-}
+export default handle(app);
