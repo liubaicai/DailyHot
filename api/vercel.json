@@ -1,7 +1,6 @@
 {
   "version": 2,
   "buildCommand": "pnpm build",
-  "nodeVersion": "20.x",
   "functions": {
     "dist/vercel.js": {
       "maxDuration": 30,
