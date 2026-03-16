@@ -1,14 +1,15 @@
 {
   "version": 2,
+  "buildCommand": "pnpm build",
+  "nodeVersion": "20.x",
   "functions": {
-    "src/vercel.ts": {
-      "runtime": "nodejs20.x",
+    "dist/vercel.js": {
       "maxDuration": 30,
-      "includeFiles": "public/**"
+      "includeFiles": "{dist,public}/**"
     }
   },
   "rewrites": [
-    { "source": "/(.*)", "destination": "/src/vercel.ts" }
+    { "source": "/(.*)", "destination": "/dist/vercel.js" }
   ],
   "env": {
     "ALLOWED_DOMAIN": "*",
