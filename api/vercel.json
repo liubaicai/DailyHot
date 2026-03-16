@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "functions": {
+    "src/vercel.ts": {
+      "runtime": "nodejs20.x",
+      "maxDuration": 30,
+      "includeFiles": "public/**"
+    }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/src/vercel.ts" }
+  ],
+  "env": {
+    "ALLOWED_DOMAIN": "*",
+    "DISALLOW_ROBOT": "true",
+    "CACHE_TTL": "3600",
+    "REQUEST_TIMEOUT": "6000",
+    "USE_LOG_FILE": "false",
+    "RSS_MODE": "false"
+  }
+}
