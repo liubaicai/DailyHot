@@ -4,15 +4,14 @@ This document provides essential information for AI coding agents working in thi
 
 ## Project Overview
 
-DailyHot is a monorepo containing two projects:
-- **`api/`** - Backend API (TypeScript + Hono + Node.js)
-- **`web/`** - Frontend (Vue 3 + Vite + Pinia + Naive UI)
+DailyHot is a hot news aggregation API service.
+- **TypeScript + Hono + Node.js**
+- Supports JSON and RSS output
+- Deployable via Docker, Vercel, or standalone Node.js
 
 ---
 
 ## Build/Lint/Test Commands
-
-### API (`api/` directory)
 
 ```bash
 pnpm dev          # Development server with hot reload (tsx watch)
@@ -23,15 +22,7 @@ pnpm lint         # Run ESLint
 pnpm format       # Format with Prettier
 ```
 
-### Web (`web/` directory)
-
-```bash
-pnpm dev          # Development server (port 6699)
-pnpm build        # Production build (Vite + Terser)
-pnpm preview      # Preview production build
-```
-
-**Note:** No test framework is currently configured. Running single tests is not applicable.
+**Note:** No test framework is currently configured.
 
 ---
 
@@ -39,31 +30,23 @@ pnpm preview      # Preview production build
 
 ```
 DailyHot/
+├── src/
+│   ├── routes/        # API route handlers (one file per source)
+│   ├── utils/         # Utilities (getData, cache, logger, feedMeta, etc.)
+│   ├── views/         # JSX view components
+│   ├── app.tsx        # Hono app configuration
+│   ├── config.ts      # Environment configuration
+│   ├── index.ts       # Entry point
+│   ├── registry.ts    # Route registration
+│   └── types.d.ts     # TypeScript type definitions
 ├── api/
-│   ├── src/
-│   │   ├── routes/        # API route handlers (one file per source)
-│   │   ├── utils/         # Utilities (getData, cache, logger, etc.)
-│   │   ├── views/         # JSX view components
-│   │   ├── app.tsx        # Hono app configuration
-│   │   ├── config.ts      # Environment configuration
-│   │   ├── index.ts       # Entry point
-│   │   ├── registry.ts    # Route registration
-│   │   └── types.d.ts     # TypeScript type definitions
-│   ├── eslint.config.js
-│   ├── tsconfig.json
-│   └── .prettierrc.js
-├── web/
-│   ├── src/
-│   │   ├── api/           # API request modules
-│   │   ├── components/    # Vue components
-│   │   ├── router/        # Vue Router configuration
-│   │   ├── store/         # Pinia store
-│   │   ├── utils/         # Utility functions
-│   │   ├── views/         # Page components
-│   │   ├── App.vue
-│   │   └── main.js
-│   └── vite.config.js
-└── Dockerfile             # Multi-stage Docker build
+│   └── index.mjs      # Vercel Serverless Function entry
+├── public/            # Static assets
+├── vercel.json        # Vercel deployment config
+├── Dockerfile         # Docker build
+├── eslint.config.js
+├── tsconfig.json
+└── .prettierrc.js
 ```
 
 ---
@@ -150,106 +133,7 @@ const getList = async (noCache: boolean) => {
 
 ### Web (Vue 3)
 
-#### Imports
-```javascript
-// Vue imports first
-import { ref, watch, onMounted } from "vue";
-import { useRouter } from "vue-router";
-
-// External packages
-import { Refresh, More } from "@icon-park/vue-next";
-
-// Local imports with @ alias
-import { getHotLists } from "@/api";
-import { mainStore } from "@/store";
-```
-
-#### Vue Component Structure
-```vue
-<template>
-  <!-- Template content -->
-</template>
-
-<script setup>
-// Imports
-import { ref, watch, onMounted } from "vue";
-
-// Props
-const props = defineProps({
-  propName: {
-    type: Object,
-    default: {},
-  },
-});
-
-// Reactive state
-const loading = ref(false);
-const data = ref(null);
-
-// Methods
-const fetchData = async () => {
-  // Implementation
-};
-
-// Lifecycle
-onMounted(() => {
-  fetchData();
-});
-</script>
-
-<style lang="scss" scoped>
-/* Component styles */
-</style>
-```
-
-#### Naming Conventions
-- Components: PascalCase (e.g., `HotList.vue`, `Header.vue`)
-- Variables/Functions: camelCase
-- CSS classes: kebab-case
-
-#### Pinia Store Pattern
-```javascript
-import { defineStore } from "pinia";
-
-export const mainStore = defineStore("storeName", {
-  state: () => ({
-    // State properties
-  }),
-  getters: {
-    // Computed properties
-  },
-  actions: {
-    // Methods
-  },
-  persist: [
-    // Persistence config
-  ],
-});
-```
-
-#### Error Handling
-```javascript
-// In components, use Naive UI's message service
-try {
-  const result = await getHotLists(type);
-  if (result.code === 200) {
-    // Success
-  } else {
-    $message.error(result.title + result.message);
-  }
-} catch (error) {
-  $message.error("操作失败，请重试");
-}
-
-// In axios interceptors (request.js)
-axios.interceptors.response.use(
-  (response) => response.data,
-  (error) => {
-    $message.error(data.message || "请求失败，请稍后重试");
-    return Promise.reject(error);
-  }
-);
-```
+Removed. This repository is API-only.
 
 ---
 
@@ -257,18 +141,17 @@ axios.interceptors.response.use(
 
 | File | Purpose |
 |------|---------|
-| `api/tsconfig.json` | TypeScript config (strict, ESNext, ES modules) |
-| `api/eslint.config.js` | ESLint with TypeScript support |
-| `api/.prettierrc.js` | Prettier formatting rules |
-| `web/vite.config.js` | Vite build config with PWA, auto-imports |
+| `tsconfig.json` | TypeScript config (strict, ESNext, ES modules) |
+| `eslint.config.js` | ESLint with TypeScript support |
+| `.prettierrc.js` | Prettier formatting rules |
+| `vercel.json` | Vercel deployment config |
 
 ---
 
 ## Important Notes
 
-1. **API uses ES Modules** - Always include `.js` extension in local imports
-2. **Vue uses script setup** - Always use `<script setup>` syntax
-3. **Naive UI auto-import** - Components are auto-imported via unplugin
-4. **API caching** - Uses node-cache with configurable TTL
-5. **CORS** - Configured in `api/src/app.tsx`
-6. **Environment variables** - See `api/.env.example` and `web/.env`
+1. **Uses ES Modules** - Always include `.js` extension in local imports
+2. **API caching** - Uses node-cache with configurable TTL
+3. **CORS** - Configured in `src/app.tsx`
+4. **Environment variables** - See `.env.example`
+5. **Vercel deployment** - Entry point is `api/index.mjs`, build output in `dist/`

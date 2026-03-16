@@ -2,37 +2,43 @@
 
 > 聚合全网热点，热门尽览无余
 
-集成了 [DailyHotApi](https://github.com/imsyy/DailyHotApi) 的 API 接口与 [DailyHot](https://github.com/imsyy/DailyHot) 的 Web 前端，支持 **JSON** 和 **RSS** 两种输出格式，方便 AI Agent 和 RSS 阅读器订阅。
+基于 [DailyHotApi](https://github.com/imsyy/DailyHotApi)，支持 **JSON** 和 **RSS** 两种输出格式，方便 AI Agent 和 RSS 阅读器订阅。
 
 ## 项目结构
 
 ```
 DailyHot/
-├── api/          # 后端 API（TypeScript + Hono + Node.js）
-├── web/          # 前端（Vue 3 + Vite + Pinia + Naive UI）
-└── Dockerfile    # 多阶段 Docker 构建
+├── src/           # 源码（TypeScript + Hono）
+│   ├── routes/    # 各平台路由处理
+│   ├── utils/     # 工具函数
+│   └── views/     # JSX 视图
+├── api/           # Vercel Serverless 函数入口
+├── public/        # 静态资源
+├── vercel.json    # Vercel 部署配置
+└── Dockerfile     # Docker 构建
 ```
 
 ## 部署
 
-### Docker（推荐）
+### Docker
 
 ```bash
 docker build -t dailyhot .
-docker run -d -p 80:80 dailyhot
+docker run -d -p 6688:6688 dailyhot
 ```
+
+### Vercel
+
+1. 在 Vercel 控制台导入仓库
+2. 框架保持 **Other**
+3. 在 **Environment Variables** 中配置所需环境变量
+4. 部署即可
 
 ### 手动部署
 
 ```bash
-# 前端
-cd web
-pnpm install && pnpm build
-cp -r dist/* ../api/public
-
-# 后端
-cd ../api
-pnpm install && pnpm build
+pnpm install
+pnpm build
 pnpm start
 ```
 
@@ -40,7 +46,7 @@ pnpm start
 
 | 变量 | 说明 | 默认值 |
 |------|------|--------|
-| `PORT` | 服务端口 | `6688`（Docker 中为 `80`） |
+| `PORT` | 服务端口 | `6688` |
 | `ALLOWED_DOMAIN` | 允许跨域的域名 | `*` |
 | `CACHE_TTL` | 缓存过期时间（秒） | `3600` |
 | `REQUEST_TIMEOUT` | 请求超时时间（毫秒） | `6000` |
@@ -221,4 +227,4 @@ curl https://your-host/api/feeds?detail=true
 
 ## 许可证
 
-基于 [DailyHotApi](https://github.com/imsyy/DailyHotApi)（MIT）与 [DailyHot](https://github.com/imsyy/DailyHot)（MIT）。
+基于 [DailyHotApi](https://github.com/imsyy/DailyHotApi)（MIT）。

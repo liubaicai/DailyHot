@@ -8,10 +8,6 @@ Dockerfile*
 LICENSE
 Procfile
 node_modules
-/api/node_modules
-/web/node_modules
-/web/dist
-/api/dist
 test
 
 # files

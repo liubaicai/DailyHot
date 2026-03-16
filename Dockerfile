@@ -5,35 +5,47 @@ ENV NODE_ENV=docker
 # 清理缓存
 RUN rm -rf /var/cache/apk/*
 
+# 构建阶段
+FROM base AS builder
+
 RUN npm install -g pnpm
 WORKDIR /app
 
-COPY . .
+COPY package*json tsconfig.json pnpm-lock.yaml .env.example ./
+COPY src ./src
+COPY public ./public
 
-# 构建
-WORKDIR /app/web
-ENV VITE_GLOBAL_API=/api
-ENV VITE_ICP=
-ENV VITE_DIR=/
-RUN pnpm install && pnpm build && cp -r dist/* /app/api/public && rm -rf /app/web/node_modules
+# 复制环境变量
+RUN [ ! -e ".env" ] && cp .env.example .env || true
 
-WORKDIR /app/api
-RUN pnpm install && pnpm build
+# 安装依赖
+RUN pnpm install
+RUN pnpm build
+RUN pnpm prune --production
 
-RUN ls -li /app/api
-RUN ls -li /app/api/public
+# 运行阶段
+FROM base AS runner
 
-ENV PORT=80
-ENV ALLOWED_DOMAIN=*
-ENV ALLOWED_HOST=127.0.0.1
-ENV DISALLOW_ROBOT=true
-ENV CACHE_TTL=3600
-ENV REQUEST_TIMEOUT=6000
-ENV USE_LOG_FILE=true
-ENV RSS_MODE=false
+# 创建用户和组
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 hono
+
+# 创建日志目录
+RUN mkdir -p /app/logs && chown -R hono:nodejs /app/logs
+RUN ln -s /app/logs /logs
+
+# 复制文件
+COPY --from=builder --chown=hono:nodejs /app/node_modules /app/node_modules
+COPY --from=builder --chown=hono:nodejs /app/dist /app/dist
+COPY --from=builder /app/public /app/public
+COPY --from=builder /app/.env /app/.env
+COPY --from=builder /app/package.json /app/package.json
+
+# 切换用户
+USER hono
 
 # 暴露端口
-EXPOSE 80
+EXPOSE 6688
 
 # 运行
-CMD ["pnpm", "start"]
+CMD ["node", "/app/dist/index.js"]
