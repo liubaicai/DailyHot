@@ -12,10 +12,6 @@ export type Config = {
   ALLOWED_HOST: string;
   USE_LOG_FILE: boolean;
   RSS_MODE: boolean;
-  REDIS_HOST: string;
-  REDIS_PORT: number;
-  REDIS_PASSWORD: string;
-  REDIS_DB: number;
   ZHIHU_COOKIE: string;
   FILTER_WEIBO_ADVERTISEMENT: boolean;
 };
@@ -51,10 +47,6 @@ export const config: Config = {
   ALLOWED_HOST: getEnvVariable("ALLOWED_HOST") || "imsyy.top",
   USE_LOG_FILE: getBooleanEnvVariable("USE_LOG_FILE", true),
   RSS_MODE: getBooleanEnvVariable("RSS_MODE", false),
-  REDIS_HOST: getEnvVariable("REDIS_HOST") || "127.0.0.1",
-  REDIS_PORT: getNumericEnvVariable("REDIS_PORT", 6379),
-  REDIS_PASSWORD: getEnvVariable("REDIS_PASSWORD") || "",
-  REDIS_DB:  getNumericEnvVariable("REDIS_DB", 0),
   ZHIHU_COOKIE: getEnvVariable("ZHIHU_COOKIE") || "",
   FILTER_WEIBO_ADVERTISEMENT: getBooleanEnvVariable("FILTER_WEIBO_ADVERTISEMENT", false),
 };
