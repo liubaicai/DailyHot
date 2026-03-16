@@ -2,6 +2,7 @@ import { fileURLToPath } from "url";
 import { config } from "./config.js";
 import { Hono } from "hono";
 import getRSS from "./utils/getRSS.js";
+import feedMeta from "./utils/feedMeta.js";
 import path from "path";
 import fs from "fs";
 
@@ -112,5 +113,106 @@ app.get("/all", (c) =>
     200,
   ),
 );
+
+// RSS 订阅源发现接口，便于 AI / AI Agent 查询
+app.get("/feeds", async (c) => {
+  const baseUrl = new URL(c.req.url);
+  const apiBase = `${baseUrl.protocol}//${baseUrl.host}/api`;
+  // 是否获取详细信息（加载各路由元数据）
+  const detail = c.req.query("detail") === "true";
+
+  // 是否按标签筛选
+  const tagFilter = c.req.query("tag");
+
+  const feeds = [];
+  for (const route of allRoutePath) {
+    if (excludeRoutes.includes(route)) continue;
+    const meta = feedMeta[route];
+    // 按标签筛选
+    if (tagFilter && (!meta || !meta.tags.includes(tagFilter))) continue;
+    const feed: Record<string, unknown> = {
+      name: route,
+      description: meta?.description || "",
+      tags: meta?.tags || [],
+      url: `${apiBase}/${route}`,
+      rss: `${apiBase}/${route}?rss=true`,
+    };
+    // 详细模式：动态加载路由获取标题等元数据
+    if (detail) {
+      try {
+        const { handleRoute } = await import(`./routes/${route}.js`);
+        const routeData = await handleRoute(undefined, false);
+        feed.title = routeData.title;
+        feed.type = routeData.type;
+        feed.link = routeData.link;
+        feed.total = routeData.total;
+      } catch {
+        feed.title = route;
+        feed.error = "Failed to load route metadata";
+      }
+    }
+    feeds.push(feed);
+  }
+
+  // 收集所有可用标签
+  const allTags = [...new Set(Object.values(feedMeta).flatMap((m) => m.tags))].sort();
+
+  return c.json({
+    code: 200,
+    name: "DailyHot RSS Feeds",
+    description:
+      "DailyHot 聚合热榜 RSS 订阅源列表。每个源支持 JSON 和 RSS 两种格式，" +
+      "可通过 ?rss=true 获取 RSS 输出，?limit=N 限制条目数量，?cache=false 跳过缓存。",
+    usage: {
+      json: `${apiBase}/{name}`,
+      rss: `${apiBase}/{name}?rss=true`,
+      feeds_api: `${apiBase}/feeds`,
+      feeds_by_tag: `${apiBase}/feeds?tag={tag}`,
+      feeds_detail: `${apiBase}/feeds?detail=true`,
+      feed_info: `${apiBase}/feeds/{name}`,
+      params: {
+        rss: "设为 true 返回 RSS XML 格式",
+        limit: "限制返回条目数量",
+        cache: "设为 false 跳过缓存",
+        tag: "按标签筛选订阅源",
+        detail: "设为 true 返回各源的详细元数据（较慢）",
+      },
+    },
+    tags: allTags,
+    count: feeds.length,
+    feeds,
+  });
+});
+
+// 单个源的详细信息接口
+app.get("/feeds/:name{.+}", async (c) => {
+  const name = c.req.param("name");
+  if (!allRoutePath.includes(name) || excludeRoutes.includes(name)) {
+    return c.json({ code: 404, message: `Feed "${name}" not found` }, 404);
+  }
+  const baseUrl = new URL(c.req.url);
+  const apiBase = `${baseUrl.protocol}//${baseUrl.host}/api`;
+  const meta = feedMeta[name];
+  try {
+    const { handleRoute } = await import(`./routes/${name}.js`);
+    const routeData = await handleRoute(c, false);
+    return c.json({
+      code: 200,
+      name: routeData.name,
+      title: routeData.title,
+      type: routeData.type,
+      description: meta?.description || routeData.description || "",
+      tags: meta?.tags || [],
+      link: routeData.link,
+      total: routeData.total,
+      updateTime: routeData.updateTime,
+      url: `${apiBase}/${name}`,
+      rss: `${apiBase}/${name}?rss=true`,
+      params: routeData.params || {},
+    });
+  } catch {
+    return c.json({ code: 500, message: "Failed to load feed metadata" }, 500);
+  }
+});
 
 export default app;
