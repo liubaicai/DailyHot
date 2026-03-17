@@ -13,7 +13,7 @@ const getRSS = (data: RouterData) => {
       link: data.link,
       language: "zh",
       generator: "DailyHotApi",
-      copyright: "Copyright © 2020-present imsyy",
+      copyright: "Copyright © 2020-present 無名",
       updated: new Date(data.updateTime),
     });
     // 获取数据
