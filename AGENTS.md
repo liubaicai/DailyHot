@@ -19,7 +19,6 @@ pnpm dev:cache    # Dev server with caching enabled
 pnpm build        # Build TypeScript to dist/
 pnpm start        # Start production server (node dist/index.js)
 pnpm lint         # Run ESLint
-pnpm format       # Format with Prettier
 ```
 
 **Note:** No test framework is currently configured.
@@ -45,8 +44,7 @@ DailyHot/
 ├── vercel.json        # Vercel deployment config
 ├── Dockerfile         # Docker build
 ├── eslint.config.js
-├── tsconfig.json
-└── .prettierrc.js
+└── tsconfig.json
 ```
 
 ---
@@ -73,7 +71,7 @@ import { Hono } from "hono";
 import { config } from "./config.js";
 ```
 
-#### Formatting (Prettier)
+#### Formatting
 - Double quotes for strings
 - Trailing commas: always
 - Semicolons: required
@@ -143,7 +141,6 @@ Removed. This repository is API-only.
 |------|---------|
 | `tsconfig.json` | TypeScript config (strict, ESNext, ES modules) |
 | `eslint.config.js` | ESLint with TypeScript support |
-| `.prettierrc.js` | Prettier formatting rules |
 | `vercel.json` | Vercel deployment config |
 
 ---

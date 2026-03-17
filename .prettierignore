@@ -1,6 +1,0 @@
-dist
-node_modules
-pnpm-lock.yaml
-LICENSE.md
-# tsconfig.json
-# tsconfig.*.json

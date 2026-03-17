@@ -311,18 +311,11 @@ const Layout: FC = (props) => {
           </div>
           <div class="power">
             Copyright&nbsp;©&nbsp;
-            <a href="https://www.imsyy.top/" target="_blank">
               無名
-            </a>
             &nbsp;|&nbsp;Power by&nbsp;
-            <a href="https://github.com/honojs/hono/" target="_blank">
               Hono
-            </a>
           </div>
           <div class="icp">
-            <a href="https://beian.miit.gov.cn/" target="_blank">
-              豫ICP备2022018134号-1
-            </a>
           </div>
         </footer>
       </body>

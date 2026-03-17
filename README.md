@@ -2,7 +2,7 @@
 
 > 聚合全网热点，热门尽览无余
 
-基于 [DailyHot][(https://github.com/liubaicai/DailyHot](https://github.com/liubaicai/DailyHot))，支持 **JSON** 和 **RSS** 两种输出格式，方便 AI Agent 和 RSS 阅读器订阅。
+支持 **JSON** 和 **RSS** 两种输出格式，方便 AI Agent 和 RSS 阅读器订阅。
 
 ## 项目结构
 
