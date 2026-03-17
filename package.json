@@ -6,16 +6,16 @@
     "API",
     "RSS"
   ],
-  "homepage": "https://github.com/imsyy/DailyHotApi#readme",
+  "homepage": "https://github.com/liubaicai/DailyHot#readme",
   "bugs": {
-    "url": "https://github.com/imsyy/DailyHotApi/issues"
+    "url": "https://github.com/liubaicai/DailyHot/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/imsyy/DailyHotApi.git"
+    "url": "git+https://github.com/liubaicai/DailyHot.git"
   },
   "license": "MIT",
-  "author": "imsyy",
+  "author": "liubaicai",
   "main": "dist/index.js",
   "declaration": true,
   "declarationMap": true,

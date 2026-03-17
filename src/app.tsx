@@ -48,12 +48,39 @@ app.use(
   }),
 );
 
+// HTTP 缓存控制
+app.use("*", async (c, next) => {
+  await next();
+  // 已经设置过的不覆盖
+  if (c.res.headers.has("Cache-Control")) return;
+  const path = c.req.path;
+  const contentType = c.res.headers.get("Content-Type") || "";
+  if (contentType.includes("text/html")) {
+    // HTML 页面：不缓存，始终请求服务器
+    c.header("Cache-Control", "no-cache, no-store, must-revalidate");
+  } else if (contentType.includes("application/xml")) {
+    // RSS 响应：短缓存
+    c.header("Cache-Control", `public, max-age=${config.CACHE_TTL}, s-maxage=${config.CACHE_TTL}`);
+  } else if (contentType.includes("application/json")) {
+    // API JSON 响应：短缓存，允许条件请求
+    c.header("Cache-Control", `public, max-age=60, s-maxage=${config.CACHE_TTL}`);
+  } else if (
+    path.startsWith("/assets/") ||
+    path.startsWith("/ico/") ||
+    path.startsWith("/logo/")
+  ) {
+    // 静态资源：长缓存
+    c.header("Cache-Control", "public, max-age=86400, immutable");
+  }
+});
+
 // 主路由
 app.route("/api", registry);
 
 // robots
 app.get("/robots.txt", robotstxt);
 // 首页
+app.get("/", (c) => c.html(<Home />));
 app.get("/api", (c) => c.html(<Home />));
 // 404
 app.notFound((c) => c.html(<NotFound />, 404));

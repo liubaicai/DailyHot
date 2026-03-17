@@ -2,7 +2,7 @@
 
 > 聚合全网热点，热门尽览无余
 
-基于 [DailyHotApi](https://github.com/imsyy/DailyHotApi)，支持 **JSON** 和 **RSS** 两种输出格式，方便 AI Agent 和 RSS 阅读器订阅。
+基于 [DailyHot][(https://github.com/liubaicai/DailyHot](https://github.com/liubaicai/DailyHot))，支持 **JSON** 和 **RSS** 两种输出格式，方便 AI Agent 和 RSS 阅读器订阅。
 
 ## 项目结构
 
@@ -227,4 +227,4 @@ curl https://your-host/api/feeds?detail=true
 
 ## 许可证
 
-基于 [DailyHotApi](https://github.com/imsyy/DailyHotApi)（MIT）。
+基于 [DailyHot](https://github.com/liubaicai/DailyHot)（MIT）。

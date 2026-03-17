@@ -7,9 +7,7 @@ const Layout: FC = (props) => {
       * {
         margin: 0;
         padding: 0;
-        user-select: none;
         box-sizing: border-box;
-        -webkit-user-drag: none;
       }
       :root {
         --text-color: #000;
@@ -280,7 +278,7 @@ const Layout: FC = (props) => {
         {props.children}
         <footer>
           <div class="social">
-            <a href="https://github.com/imsyy/DailyHotApi" className="link" target="_blank">
+            <a href="https://github.com/liubaicai/DailyHoti" className="link" target="_blank">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                 <path
                   fill="currentColor"

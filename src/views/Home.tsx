@@ -172,11 +172,11 @@ const Home: FC = () => {
             <h2>全部接口</h2>
             <p>
               查看{" "}
-              <a href="/all" className="doc-link">
+              <a href="/api/all" className="doc-link">
                 /api/all
               </a>{" "}
               获取当前可用的全部接口列表， 或访问{" "}
-              <a href="/feeds" className="doc-link">
+              <a href="/api/feeds" className="doc-link">
                 /api/feeds
               </a>{" "}
               获取带描述和标签的完整订阅源信息。
@@ -187,13 +187,13 @@ const Home: FC = () => {
       {html`
         <script>
           document.getElementById("all-button").addEventListener("click", () => {
-            window.location.href = "/all";
+            window.location.href = "/api/all";
           });
           document.getElementById("feeds-button").addEventListener("click", () => {
-            window.location.href = "/feeds";
+            window.location.href = "/api/feeds";
           });
           document.getElementById("github-button").addEventListener("click", () => {
-            window.open("https://github.com/imsyy/DailyHotApi");
+            window.open("https://github.com/liubaicai/DailyHot");
           });
         </script>
       `}
