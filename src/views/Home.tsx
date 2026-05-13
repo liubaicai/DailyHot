@@ -69,6 +69,7 @@ Base URL: {当前域名}/api
         <p>
           <a href="/api/all">/api/all</a> ·{" "}
           <a href="/api/feeds">/api/feeds</a> ·{" "}
+          <a href="/review">/review</a> ·{" "}
           <a href="https://github.com/liubaicai/DailyHot">GitHub</a>
         </p>
       </main>

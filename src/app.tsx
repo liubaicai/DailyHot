@@ -11,6 +11,7 @@ import robotstxt from "./robots.txt.js";
 import NotFound from "./views/NotFound.js";
 import Home from "./views/Home.js";
 import Error from "./views/Error.js";
+import Review from "./views/Review.js";
 
 const app = new Hono();
 
@@ -82,6 +83,8 @@ app.get("/robots.txt", robotstxt);
 // 首页
 app.get("/", (c) => c.html(<Home />));
 app.get("/api", (c) => c.html(<Home />));
+// API 可用性预览页
+app.get("/review", (c) => c.html(<Review />));
 // 404
 app.notFound((c) => c.html(<NotFound />, 404));
 // error
